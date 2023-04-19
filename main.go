@@ -272,6 +272,7 @@ func cloneEvents(ctx context.Context, c *github.Client, s Settings) ([]*github.A
 func main() {
 	flag.Parse()
 	ghToken := os.Getenv("GITHUB_TOKEN")
+
 	if ghToken == "" {
 		log.Fatalf("GITHUB_TOKEN must be set")
 	}
@@ -299,7 +300,7 @@ func main() {
 		log.Panicf("web events: %v", err)
 	}
 	postFailures := 0
-	webhook := os.Getenv("WEBHOOK_URL")
+	webhook := os.Getenv("GH_AUDIT_SLACK_WEBHOOK")
 
 	for _, e := range wes {
 		if err := notify(webhook, auditMsg(e)); err != nil {

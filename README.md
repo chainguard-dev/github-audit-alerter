@@ -19,4 +19,4 @@ Testing:
 github-audit-alerter --org chainguard-dev --max-repos-cloned-per-user=3
 ```
 
-To send Slack events, you will need to set the WEBHOOK_URL environment variable.
+To send Slack events, set the GH_AUDIT_SLACK_WEBHOOK environment variable.
