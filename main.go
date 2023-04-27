@@ -41,11 +41,13 @@ var (
 		"repo.download_zip",
 		"repo.pages_.*",
 		"repo.remove_member",
+		"repo.update_actions_secret",
 		"repository_dependency_graph.enable",
 		"repository_projects.*",
 		"repository_secret_scanning.enable",
 		"repository_vulnerability_alert.dismiss",
 		"repository_vulnerability_alert.resolve",
+		"merge_queue.update_settings",
 		"repository_vulnerability_alerts.enable",
 		"required_status_check.create",
 		"team.add_repository",
@@ -55,6 +57,7 @@ var (
 	// nonCriticalActionsIgnore are regexps for actions to ignore for non-critical repos
 	nonCriticalActionsIgnore = []string{
 		"environment.update_protection_rule",
+		"repository_invitation.cancel",
 		"integration_installation.*",
 		"integration_installation.repositories_added",
 		"org.add_outside_collaborator",
@@ -62,7 +65,13 @@ var (
 		"protected_branch.*",
 		"protected_branch.update_allow_force_pushes_enforcement_level",
 		"repo.add_member",
+		"repo.update_member",
 		"repo.archived",
+		"repo.transfer",
+		"repo.update_actions_secret",
+		"repo.create_actions_secret",
+		"repo.actions_enabled",
+		"hook.create",
 		"repo.change_merge_setting",
 		"repo.destroy",
 		"repo.rename",
@@ -345,7 +354,11 @@ func auditMsg(a *github.AuditEntry) string {
 	sb.WriteString(fmt.Sprintf("%s: *%s* on *%s*", a.GetActor(), a.GetAction(), location))
 
 	if a.GetPreviousVisibility() != "" {
-		sb.WriteString(fmt.Sprintf("visibility: %s->%s", a.GetPreviousVisibility(), a.GetVisibility()))
+		sb.WriteString(fmt.Sprintf(" visibility: %s->%s", a.GetPreviousVisibility(), a.GetVisibility()))
+	}
+
+	if a.GetUser() != "" {
+		sb.WriteString(fmt.Sprintf(" user: %q", a.GetUser()))
 	}
 
 	if a.GetName() != "" {
