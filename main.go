@@ -31,6 +31,7 @@ var (
 		"org_credential_authorization.*",
 		"org.self_hosted_runner_.*",
 		"org.sso_response",
+		"repository_vulnerability_alert.auto_dismiss",
 		"packages.package_version_published",
 		"personal_access_token.request_created",
 		"project.*",
@@ -58,6 +59,10 @@ var (
 	nonCriticalActionsIgnore = []string{
 		"environment.update_protection_rule",
 		"repository_invitation.cancel",
+		"repo.add_topic",
+		"public_key.create",
+		"public_key.verify",
+		"repository_vulnerability_alert.reintroduce",
 		"integration_installation.*",
 		"integration_installation.repositories_added",
 		"org.add_outside_collaborator",
