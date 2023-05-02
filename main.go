@@ -39,6 +39,7 @@ var (
 		"public_key.update",
 		"pull_request.*",
 		"repo.create",
+		"merge_queue.pull_request_queue_jump",
 		"repo.download_zip",
 		"repo.pages_.*",
 		"repo.remove_member",
