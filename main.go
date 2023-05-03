@@ -37,6 +37,7 @@ var (
 		"project.*",
 		"protected_branch.authorized_users_teams",
 		"public_key.update",
+		"public_key.delete",
 		"pull_request.*",
 		"repo.create",
 		"merge_queue.pull_request_queue_jump",
