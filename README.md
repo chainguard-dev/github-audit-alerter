@@ -13,9 +13,14 @@ go v1.20.0 or newer
 
 ## Usage
 
+You will need a GITHUB_TOKEN with permissions where the `Resource owner` is the organization you are testing. 
+
+For this You can go and [create a new PAT](https://github.com/settings/personal-access-tokens/new) and select `Permissions / Organization Permission / Administration (Manage access to an organization.)` and set it to `Access: read-only`. That is the only permission you need.
+
 Testing:
 
 ```
+export GITHUB_TOKEN=$(cat <your-github-token-file>)
 github-audit-alerter --org chainguard-dev --max-repos-cloned-per-user=3
 ```
 
