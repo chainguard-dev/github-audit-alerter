@@ -69,6 +69,7 @@ var (
 		"integration_installation.*",
 		"integration_installation.repositories_added",
 		"org.add_outside_collaborator",
+		"org.invite_member",
 		"private_repository_forking.*",
 		"protected_branch.*",
 		"protected_branch.update_allow_force_pushes_enforcement_level",
