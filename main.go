@@ -54,6 +54,7 @@ var (
 		"repository_vulnerability_alerts.enable",
 		"repo.update_actions_secret",
 		"repo.remove_self_hosted_runner",
+		"repo.self_hosted_runner_offline",
 		"required_status_check.create",
 		"team.add_repository",
 		"workflows.*",
