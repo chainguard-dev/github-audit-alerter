@@ -9,7 +9,9 @@ This is chiefly to detect whether or not someone's Github credentials have been 
 
 ## Requirements
 
-go v1.20.0 or newer
+- go v1.20.0 or newer
+- Slack webhook token
+- Github auth token
 
 ## Usage
 
@@ -20,3 +22,15 @@ github-audit-alerter --org chainguard-dev --max-repos-cloned-per-user=3
 ```
 
 To send Slack events, set the GH_AUDIT_SLACK_WEBHOOK environment variable.
+
+## Creating a Slack webhook URL
+
+- https://<your instance name>.slack.com/services/B0413S52DFB#message_attachments
+
+## Creating a GitHub auth token
+
+- Visit the [Fine-grained personal access tokens](https://github.com/settings/tokens?type=beta) page
+- Click `Generate new token`
+- Repository Access: `All repositories`
+- Repository permissions: `Administration: Read-only`
+- Organization permissions: `Administration: Read-only`, `Events: Read-only`
