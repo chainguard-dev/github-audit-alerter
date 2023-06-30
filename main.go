@@ -103,6 +103,7 @@ var (
 	cloneIntervalFlag  = flag.Duration("clone-search-interval", 24*time.Hour, "How far to go backwards searching for git clone events")
 	criticalReposFlag  = flag.String("critical-repos", "", "critical repositories for more stringent checking, comma separated")
 	orgFlag            = flag.String("org", "", "Github Organization to query")
+	botNameFlag        = flag.String("bot-name", "-bot,[bot],deploy,guardian", "Well-known bot name users in the org, comma separated. Defaults to \"-bot,[bot],deploy,guardian\".")
 )
 
 func auditString(a *github.AuditEntry) string {
@@ -162,6 +163,7 @@ type Settings struct {
 	Since          time.Time
 	MaxClonesSince time.Time
 	Org            string
+	BotNames       []string
 
 	GlobalIgnoreActions      []string
 	NonCriticalIgnoreActions []string
@@ -208,7 +210,7 @@ func webEvents(ctx context.Context, c *github.Client, s Settings) ([]*github.Aud
 			continue
 		}
 
-		if isBot(a.GetActor()) {
+		if isBot(a.GetActor(), s.BotNames) {
 			continue
 		}
 
@@ -219,18 +221,11 @@ func webEvents(ctx context.Context, c *github.Client, s Settings) ([]*github.Aud
 	return matches, nil
 }
 
-func isBot(s string) bool {
-	if strings.HasSuffix(s, "-bot") {
-		return true
-	}
-	if strings.HasSuffix(s, "[bot]") {
-		return true
-	}
-	if strings.HasPrefix(s, "deploy") {
-		return true
-	}
-	if strings.HasSuffix(s, "guardian") {
-		return true
+func isBot(s string, botNames []string) bool {
+	for _, bots := range botNames {
+		if strings.HasSuffix(s, bots) {
+			return true
+		}
 	}
 	return false
 }
@@ -255,7 +250,7 @@ func cloneEvents(ctx context.Context, c *github.Client, s Settings) ([]*github.A
 			continue
 		}
 
-		if isBot(a.GetActor()) {
+		if isBot(a.GetActor(), s.BotNames) {
 			continue
 		}
 
@@ -314,6 +309,7 @@ func main() {
 	s := Settings{
 		Org:                      *orgFlag,
 		Since:                    time.Now().Add(-1 * *intervalFlag),
+		BotNames:                 strings.Split(*botNameFlag, ","),
 		GlobalIgnoreActions:      universalIgnore,
 		NonCriticalIgnoreActions: nonCriticalIgnore,
 		MaxClonedRepos:           *maxReposClonedFlag,
