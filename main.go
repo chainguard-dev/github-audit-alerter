@@ -41,6 +41,7 @@ var (
 		"public_key.delete",
 		"public_key.update",
 		"pull_request.*",
+		"repo.remove_actions_secret",
 		"repo.create",
 		"repo.download_zip",
 		"repo.pages_.*",
