@@ -10,6 +10,7 @@ import (
 	"log"
 	"net/url"
 	"os"
+	"path/filepath"
 	"regexp"
 	"strings"
 	"time"
@@ -28,6 +29,7 @@ var (
 		"environment.add_protection_rule",
 		"environment.create",
 		"environment.delete",
+		"hook.events_changed",
 		"integration_installation.repositories_removed",
 		"issue.*",
 		"merge_queue.*",
@@ -70,6 +72,7 @@ var (
 		"hook.create",
 		"integration_installation.*",
 		"integration_installation.repositories_added",
+		"org.add_member",
 		"org.add_outside_collaborator",
 		"org.invite_member",
 		"private_repository_forking.*",
@@ -87,12 +90,15 @@ var (
 		"repo.register_self_hosted_runner",
 		"repo.rename",
 		"repo.self_hosted_runner_online",
+		"repo.set_default_workflow_permissions",
+		"repo.set_workflow_permission_can_approve_pr",
 		"repository_invitation.accept",
 		"repository_invitation.cancel",
 		"repository_invitation.create",
 		"repository_vulnerability_alert.create",
 		"repository_vulnerability_alert.reintroduce",
 		"repo.transfer",
+		"repo.unarchived",
 		"repo.update_actions_secret",
 		"repo.update_member",
 		"required_status_check.destroy",
@@ -102,7 +108,7 @@ var (
 
 var (
 	intervalFlag       = flag.Duration("interval", 15*time.Minute, "How far to go backwards searching for actions to alert on")
-	maxReposClonedFlag = flag.Int("max-repos-cloned-per-user", 3, "maximum repositories before creating a user alert")
+	maxReposClonedFlag = flag.Int("max-repos-cloned-per-user", 5, "minimum repositories to see cloned before creating a user alert")
 	cloneIntervalFlag  = flag.Duration("clone-search-interval", 24*time.Hour, "How far to go backwards searching for git clone events")
 	criticalReposFlag  = flag.String("critical-repos", "", "critical repositories for more stringent checking, comma separated")
 	orgFlag            = flag.String("org", "", "Github Organization to query")
@@ -269,7 +275,9 @@ func cloneEvents(ctx context.Context, c *github.Client, s Settings) ([]*github.A
 	for u, events := range cloneEvents {
 		repos := map[string]bool{}
 		for _, e := range events {
-			repos[e.GetRepository()] = true
+			// Go by the base-name so that we don't double-count forks
+			base := filepath.Base(e.GetRepository())
+			repos[base] = true
 		}
 
 		log.Printf("%s has %d git clone events, affected repos: %v", u, len(events), repos)
