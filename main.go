@@ -42,6 +42,7 @@ var (
 		"personal_access_token.request_created",
 		"project.*",
 		"protected_branch.authorized_users_teams",
+		"protected_branch.rejected_ref_update",
 		"public_key.delete",
 		"public_key.update",
 		"pull_request.*",
