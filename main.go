@@ -62,6 +62,7 @@ var (
 		"repository_vulnerability_alerts.enable",
 		"repo.update_actions_secret",
 		"required_status_check.create",
+		"sub_issues.*",
 		"team.add_repository",
 		"workflows.*",
 	}
