@@ -4,7 +4,7 @@ go 1.23
 
 require (
 	github.com/google/go-github/v51 v51.0.0
-	github.com/slack-go/slack v0.13.0
+	github.com/slack-go/slack v0.15.0
 	golang.org/x/oauth2 v0.23.0
 )
 
