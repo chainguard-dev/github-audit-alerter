@@ -1,8 +1,6 @@
 module github.com/chainguard-dev/github-audit-alerter
 
-go 1.21
-
-toolchain go1.22.4
+go 1.23
 
 require (
 	github.com/google/go-github/v51 v51.0.0
@@ -13,6 +11,7 @@ require (
 require (
 	github.com/ProtonMail/go-crypto v1.0.0 // indirect
 	github.com/cloudflare/circl v1.3.9 // indirect
+	github.com/google/go-cmp v0.5.9 // indirect
 	github.com/google/go-querystring v1.1.0 // indirect
 	github.com/gorilla/websocket v1.5.3 // indirect
 	golang.org/x/crypto v0.24.0 // indirect

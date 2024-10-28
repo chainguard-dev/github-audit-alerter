@@ -1,17 +1,31 @@
-name: Test
+name: lint
 
 on:
-  pull_request:
   push:
+    branches:
+      - 'main'
+  pull_request:
+    branches:
+      - 'main'
+
+permissions: {}
+
 jobs:
-  lint:
+  golangci:
+    name: lint
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Install Go
-        uses: actions/setup-go@v4
+      - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871 # v4.2.1
+      - uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5.0.2
         with:
-          go-version: v1.20.x
-          cache: true
-      - name: Build app
-        run: go build
+          go-version-file: './go.mod'
+          check-latest: true
+
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@971e284b6050e8a5849b72094c50ab08da042db8 # v6.1.1
+        with:
+          version: v1.61
