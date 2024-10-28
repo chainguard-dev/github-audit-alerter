@@ -1,0 +1,29 @@
+---
+linters:
+  enable:
+    - asciicheck
+    - unused
+    - errcheck
+    - errorlint
+    - gofmt
+    - goimports
+    - gosec
+    - gocritic
+    - importas
+    - prealloc
+    - revive
+    - misspell
+    - stylecheck
+    - tparallel
+    - unconvert
+    - unparam
+    - whitespace
+linters-settings: {}
+output:
+  uniq-by-line: false
+issues:
+  max-issues-per-linter: 0
+  max-same-issues: 0
+run:
+  issues-exit-code: 1
+  timeout: 10m
